@@ -2,7 +2,7 @@
 
 import React, { Suspense } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { useGLTF } from '@react-three/drei';
+import { useGLTF, useAnimations } from '@react-three/drei';
 import { Mesh, Group } from 'three';
 
 interface ProjectModelProps {
@@ -29,7 +29,16 @@ function DefaultModel() {
 }
 
 function Model({ modelPath, scale }: { modelPath: string, scale?: number }) {
-  const { scene } = useGLTF(modelPath);
+  const { scene, animations } = useGLTF(modelPath);
+  const { actions } = useAnimations(animations, scene);
+
+  React.useEffect(() => {
+    if (actions && Object.keys(actions).length > 0) {
+      const firstAction = actions[Object.keys(actions)[0]];      
+      firstAction?.play();
+    }
+  }, [actions]);
+
   return <primitive object={scene as Group} scale={scale} />;
 }
 
@@ -40,7 +49,7 @@ export default function ProjectModel({ modelPath, scale }: ProjectModelProps) {
 
   return (
     <Suspense fallback={<DefaultModel />}>
-      <Model modelPath={modelPath} scale={scale || 1} />
+      <Model modelPath={modelPath} scale={scale} />
     </Suspense>
   );
 } 
