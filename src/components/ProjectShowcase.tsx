@@ -133,7 +133,7 @@ export const ProjectShowcase: React.FC = () => {
                     <Canvas className="w-full h-full" camera={{ position: project.cameraPosition || [-4.5, 1.5, 6], fov: project.cameraFov || 50 }}>
                       <color attach="background" args={[project.backgroundColor || '#FFF9E3']} />
                       <ambientLight intensity={0.5} />
-                      <pointLight position={[10, 10, 10]} intensity={500} />
+                      <pointLight position={[10, 10, 10]} intensity={700} />
                       <ProjectModel modelPath={project.modelPath} scale={project.scale || 1} />
                       <OrbitControls
                         enableZoom={false}
