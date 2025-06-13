@@ -13,7 +13,7 @@ const { Title, Paragraph } = Typography;
 interface Project {
   id: string;
   title: string;
-  description: string;
+  description: string | string[];
   technologies: string[];
   modelPath?: string;
   cameraPosition?: [number, number, number];
@@ -21,19 +21,29 @@ interface Project {
   cameraFov?: number;
   backgroundColor?: string;
   scale?: number;
+  url?: string;
 }
 
 const projects: Project[] = [
   {
     id: 'portfolio',
-    title: '个人作品集网站',
-    description: '使用 Next.js、React Three Fiber 和 Tailwind CSS 构建的现代化个人作品集网站，展示个人技能和项目经验。',
-    technologies: ['Next.js', 'React Three Fiber', 'Tailwind CSS', 'TypeScript'],
+    title: '个人博客与效率平台',
+    description: [
+      '以 Vue3 + Vite + Tailwind CSS + Shadcn UI 构建的高效个人博客与工作平台',
+      '支持权限管理的一站式 Markdown 博客编辑与预览',
+      '动效丰富的收藏夹系统，支持自定义分类、模糊搜索与高亮',
+      '摸鱼热榜聚合页，实时展示微博、掘金、B站热搜',
+      '智能 Agent 助手，自动生成周报/日报，集成待办与报告功能',
+      '多实用小组件：下班倒计时、节假日提醒、天气、音乐播放器等',
+      '项目注重交互体验与资源管理效率，极大提升日常工作与内容创作的便捷性',
+    ],
+    technologies: ['Vue3', 'Vite', 'Tailwind CSS', 'Shadcn UI', 'Node.js', 'Egg.js'],
     modelPath: '/models/pusheen_-_im_busy/scene.gltf',
     cameraPosition: [-4.5, 1.5, 6],
     cameraTarget: [-4.5, 0, 0],
     cameraFov: 50,
-    backgroundColor: '#FFF9E3' // 米黄
+    backgroundColor: '#FFF9E3', // 米黄
+    url: 'https://kaixx.top/',
   },
   {
     id: 'blog',
@@ -44,7 +54,8 @@ const projects: Project[] = [
     cameraPosition: [-6, 3.5, 5],
     cameraTarget: [-4.8, 1, 0],
     cameraFov: 50,
-    backgroundColor: '#FFE4E1' // 淡玫瑰
+    backgroundColor: '#FFE4E1', // 淡玫瑰
+    url: 'https://kaixx.top/',
   },
   {
     id: 'learning',
@@ -56,7 +67,8 @@ const projects: Project[] = [
     cameraTarget: [-2.5, 4, 0],
     cameraFov: 50,
     backgroundColor: '#E6F2FF', // 淡蓝
-    scale: 0.05
+    scale: 0.05,
+    url: 'https://kaixx.top/',
   },
 ];
 
@@ -127,7 +139,7 @@ export const ProjectShowcase: React.FC = () => {
                 delay: index * 0.2,
               }}
             >
-              <Card hoverable className="w-full" styles={{ body: { padding: 0 } }}>
+              <Card hoverable className={`w-full !cursor-default`} styles={{ body: { padding: 0 } }}>
                 <div className={`flex flex-col ${rowClass} w-full rounded-lg overflow-hidden`}>
                   <div className="w-full md:w-1/3 aspect-square min-h-[200px] bg-gray-100 flex-shrink-0">
                     <Canvas className="w-full h-full" camera={{ position: project.cameraPosition || [-4.5, 1.5, 6], fov: project.cameraFov || 50 }}>
@@ -138,16 +150,51 @@ export const ProjectShowcase: React.FC = () => {
                       <OrbitControls
                         enableZoom={false}
                         target={project.cameraTarget || [-4.5, 0, 0]}
-                        ref={ref => { controlsRefs.current[index] = ref; }}
+                        ref={(ref) => {
+                          controlsRefs.current[index] = ref;
+                        }}
                         onEnd={() => handleReset(controlsRefs.current[index], project)}
                       />
                     </Canvas>
                   </div>
                   <div className="w-full md:flex-1 p-8 flex flex-col justify-start">
-                    <Title level={4} className="text-2xl mb-4">
-                      {project.title}
-                    </Title>
-                    <Paragraph className="text-gray-600 mb-6 text-lg">{project.description}</Paragraph>
+                    <div className="mb-4 select-none" style={{ marginBottom: 16 }}>
+                      <span
+                        className="inline-flex items-center cursor-pointer"
+                        onClick={() => {
+                          if (project.url) {
+                            window.open(project.url, '_blank');
+                          }
+                        }}
+                      >
+                        <Title
+                          level={3}
+                          className="!mb-0 !text-inherit hover:!text-blue-500 transition-colors duration-200 cursor-pointer"
+                        >
+                          {project.title}
+                        </Title>
+                        <span className="ml-2 px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-700 border border-yellow-300 align-middle select-none pointer-events-none">
+                          点击跳转
+                        </span>
+                      </span>
+                    </div>
+                    {Array.isArray(project.description) ? (
+                      <ul className="mb-6 space-y-3 text-gray-700 text-base">
+                        {project.description.map((item, idx) => (
+                          <li key={idx} className="flex items-start gap-2">
+                            <span className="mt-1 text-blue-400">
+                              <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" fill="#60a5fa" />
+                                <path d="M9.5 12.5l2 2 3-4" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                              </svg>
+                            </span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <Paragraph className="text-gray-600 mb-6 text-lg">{project.description}</Paragraph>
+                    )}
                     <Space wrap>
                       {project.technologies.map((tech) => (
                         <Tag key={tech} color="blue" className="text-base px-3 py-1">
