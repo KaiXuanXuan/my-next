@@ -23,7 +23,7 @@ const projects: Project[] = [
     title: '个人作品集网站',
     description: '使用 Next.js、React Three Fiber 和 Tailwind CSS 构建的现代化个人作品集网站，展示个人技能和项目经验。',
     technologies: ['Next.js', 'React Three Fiber', 'Tailwind CSS', 'TypeScript'],
-    modelPath: ''
+    modelPath: '/models/pusheen_-_im_busy/scene.gltf'
   },
   {
     id: 'blog',
@@ -75,7 +75,7 @@ export const ProjectShowcase: React.FC = () => {
               <Card
                 hoverable
                 className="w-full"
-                bodyStyle={{ padding: 0 }}
+                styles={{ body: { padding: 0 } }}
               >
                 <div className={`flex flex-col ${rowClass} w-full`}>
                   <div className="w-full md:w-1/3 aspect-square min-h-[200px] bg-gray-100 flex-shrink-0">
@@ -83,7 +83,7 @@ export const ProjectShowcase: React.FC = () => {
                       <ambientLight intensity={0.5} />
                       <pointLight position={[10, 10, 10]} />
                       <ProjectModel modelPath={project.modelPath} />
-                      <OrbitControls enableZoom={false} />
+                      <OrbitControls enableZoom={true} />
                     </Canvas>
                   </div>
                   <div className="w-full md:flex-1 p-8 flex flex-col justify-start">

@@ -7,6 +7,7 @@ import { Mesh, Group } from 'three';
 
 interface ProjectModelProps {
   modelPath?: string;
+  scale?: number;
 }
 
 function DefaultModel() {
@@ -27,19 +28,19 @@ function DefaultModel() {
   );
 }
 
-function Model({ modelPath }: { modelPath: string }) {
+function Model({ modelPath, scale }: { modelPath: string, scale?: number }) {
   const { scene } = useGLTF(modelPath);
-  return <primitive object={scene as Group} scale={0.5} />;
+  return <primitive object={scene as Group} scale={scale} />;
 }
 
-export default function ProjectModel({ modelPath }: ProjectModelProps) {
+export default function ProjectModel({ modelPath, scale }: ProjectModelProps) {
   if (!modelPath) {
     return <DefaultModel />;
   }
 
   return (
     <Suspense fallback={<DefaultModel />}>
-      <Model modelPath={modelPath} />
+      <Model modelPath={modelPath} scale={scale || 1} />
     </Suspense>
   );
 } 
