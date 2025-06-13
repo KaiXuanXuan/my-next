@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 增强型互动个人简历网站
 
-## Getting Started
+## 技术栈
+- Next.js (App Router)
+- TypeScript
+- Tailwind CSS
+- Ant Design
+- React Three Fiber (R3F)
 
-First, run the development server:
+## 目录结构
+- `src/app/`：主页面与路由
+- `src/components/`：核心区块组件（技能、项目、获奖等）
+- `public/models/`：3D 模型资源（如有）
+- `.cursor/rules/`：项目规范与进度追踪
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 已实现功能
+- 响应式主页面结构，分为：个人简介、技能展示、项目展示、获奖经历
+- 技能区块：分门别类，标签化展示，带动画
+- 项目区块：支持 3D 动态模型，桌面端左右分栏、移动端上下分栏自适应，滑入动画
+- 获奖区块：emoji+Tag 展示，动画入场，移动端自适应
+- 统一风格与排版，兼容移动端
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 当前进度
+- 基础结构与主要区块已完成
+- 动态 3D 区块初步实现，支持模型加载失败降级
+- 动画与交互体验初步完成
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 后续计划
+- 丰富 3D 模型资源，完善像素头像、技能可视化、成就徽章等动态元素
+- 项目详情页与转场动画
+- 一键切换静态/降级视图，提升移动端性能
+- 完善文档与单元测试
+- 进一步优化移动端交互体验
