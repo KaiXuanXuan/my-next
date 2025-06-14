@@ -2,13 +2,10 @@
 
 import React, { useRef } from 'react';
 import { Card, Typography, Space, Tag } from 'antd';
-import ProjectModel from './ProjectModel';
 import { motion } from 'framer-motion';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { useInView } from 'react-intersection-observer';
+import dynamic from 'next/dynamic';
 import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
-
-const { Title, Paragraph } = Typography;
 
 interface Project {
   id: string;
@@ -26,7 +23,7 @@ interface Project {
 
 const projects: Project[] = [
   {
-    id: 'portfolio',
+    id: 'blog',
     title: '个人博客与效率平台',
     description: [
       '以 Vue3 + Vite + Tailwind CSS + Shadcn UI 构建的高效个人博客与工作平台',
@@ -46,7 +43,7 @@ const projects: Project[] = [
     url: 'https://kaixx.top/',
   },
   {
-    id: 'blog',
+    id: 'dingding',
     title: '高仿钉钉官网首页',
     description: [
       '高度还原钉钉官网首页，完整复刻其动画与布局，细节高度一致',
@@ -66,7 +63,7 @@ const projects: Project[] = [
     url: 'https://ddingtalk.netlify.app/',
   },
   {
-    id: 'learning',
+    id: 'music',
     title: '在线音乐平台',
     description: [
       '支持用户上传本地音乐文件，自动生成音乐列表，便于管理和播放',
@@ -86,7 +83,120 @@ const projects: Project[] = [
   },
 ];
 
+// 动态导入 Canvas 及相关依赖，避免初始包体过大
+const LazyCanvas = dynamic(
+  () => import('./ProjectShowcaseCanvas'),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-full flex items-center justify-center bg-yellow-50 animate-pulse min-h-[200px]">
+        <svg className="animate-spin h-10 w-10 text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+        </svg>
+      </div>
+    )
+  }
+);
+
+interface ProjectCardProps {
+  project: Project;
+  index: number;
+  handleReset: (controls: OrbitControlsImpl | null, project: Project) => void;
+  controlsRefs: React.MutableRefObject<(OrbitControlsImpl | null)[]>;
+  rowClass: string;
+  initialX: number;
+}
+
+function ProjectCard(props: ProjectCardProps) {
+  const { project, index, handleReset, controlsRefs, rowClass, initialX } = props;
+  const { Title, Paragraph } = Typography;
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
+  return (
+    <motion.div
+      key={project.id}
+      initial={{
+        opacity: 0,
+        x: initialX,
+        y: 100,
+      }}
+      whileInView={{
+        opacity: 1,
+        x: 0,
+        y: 0,
+      }}
+      viewport={{ once: true, margin: '-100px' }}
+      transition={{
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1],
+        delay: index * 0.2,
+      }}
+    >
+      <Card hoverable className={`w-full !cursor-default`} styles={{ body: { padding: 0 } }}>
+        <div className={`flex flex-col ${rowClass} w-full rounded-lg overflow-hidden`}>
+          <div className="w-full md:w-1/3 aspect-square min-h-[200px] bg-gray-100 flex-shrink-0">
+            <div ref={ref} className="w-full h-full">
+              {inView ? (
+                <LazyCanvas project={project} index={index} handleReset={handleReset} controlsRefs={controlsRefs} />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center bg-gray-100 animate-pulse min-h-[200px]">3D加载中...</div>
+              )}
+            </div>
+          </div>
+          <div className="w-full md:flex-1 p-8 flex flex-col justify-start">
+            <div className="mb-4 select-none" style={{ marginBottom: 16 }}>
+              <span
+                className="inline-flex items-center cursor-pointer"
+                onClick={() => {
+                  if (project.url) {
+                    window.open(project.url, '_blank');
+                  }
+                }}
+              >
+                <Title
+                  level={3}
+                  className="!mb-0 !text-inherit hover:!text-blue-500 transition-colors duration-200 cursor-pointer"
+                >
+                  {project.title}
+                </Title>
+                <span className="ml-2 px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-700 border border-yellow-300 align-middle select-none pointer-events-none">
+                  点击跳转
+                </span>
+              </span>
+            </div>
+            {Array.isArray(project.description) ? (
+              <ul className="mb-6 space-y-3 text-gray-700 text-base">
+                {project.description.map((item, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <span className="mt-1 text-blue-400">
+                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" fill="#60a5fa" />
+                        <path d="M9.5 12.5l2 2 3-4" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <Paragraph className="text-gray-600 mb-6 text-lg">{project.description}</Paragraph>
+            )}
+            <Space wrap>
+              {project.technologies.map((tech) => (
+                <Tag key={tech} color="blue" className="text-base px-3 py-1">
+                  {tech}
+                </Tag>
+              ))}
+            </Space>
+          </div>
+        </div>
+      </Card>
+    </motion.div>
+  );
+}
+
 export const ProjectShowcase: React.FC = () => {
+  const { Title } = Typography;
   // 用于存储每个 OrbitControls 的引用
   const controlsRefs = useRef<(OrbitControlsImpl | null)[]>([]);
 
@@ -134,92 +244,15 @@ export const ProjectShowcase: React.FC = () => {
           const initialX = isEven ? -100 : 100;
           const rowClass = isEven ? 'md:flex-row' : 'md:flex-row-reverse';
           return (
-            <motion.div
+            <ProjectCard
               key={project.id}
-              initial={{
-                opacity: 0,
-                x: initialX,
-                y: 100,
-              }}
-              whileInView={{
-                opacity: 1,
-                x: 0,
-                y: 0,
-              }}
-              viewport={{ once: true, margin: '-100px' }}
-              transition={{
-                duration: 0.8,
-                ease: [0.22, 1, 0.36, 1],
-                delay: index * 0.2,
-              }}
-            >
-              <Card hoverable className={`w-full !cursor-default`} styles={{ body: { padding: 0 } }}>
-                <div className={`flex flex-col ${rowClass} w-full rounded-lg overflow-hidden`}>
-                  <div className="w-full md:w-1/3 aspect-square min-h-[200px] bg-gray-100 flex-shrink-0">
-                    <Canvas className="w-full h-full" camera={{ position: project.cameraPosition || [-4.5, 1.5, 6], fov: project.cameraFov || 50 }}>
-                      <color attach="background" args={[project.backgroundColor || '#FFF9E3']} />
-                      <ambientLight intensity={0.5} />
-                      <pointLight position={[10, 10, 10]} intensity={700} />
-                      <ProjectModel modelPath={project.modelPath} scale={project.scale || 1} />
-                      <OrbitControls
-                        enableZoom={false}
-                        target={project.cameraTarget || [-4.5, 0, 0]}
-                        ref={(ref) => {
-                          controlsRefs.current[index] = ref;
-                        }}
-                        onEnd={() => handleReset(controlsRefs.current[index], project)}
-                      />
-                    </Canvas>
-                  </div>
-                  <div className="w-full md:flex-1 p-8 flex flex-col justify-start">
-                    <div className="mb-4 select-none" style={{ marginBottom: 16 }}>
-                      <span
-                        className="inline-flex items-center cursor-pointer"
-                        onClick={() => {
-                          if (project.url) {
-                            window.open(project.url, '_blank');
-                          }
-                        }}
-                      >
-                        <Title
-                          level={3}
-                          className="!mb-0 !text-inherit hover:!text-blue-500 transition-colors duration-200 cursor-pointer"
-                        >
-                          {project.title}
-                        </Title>
-                        <span className="ml-2 px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-700 border border-yellow-300 align-middle select-none pointer-events-none">
-                          点击跳转
-                        </span>
-                      </span>
-                    </div>
-                    {Array.isArray(project.description) ? (
-                      <ul className="mb-6 space-y-3 text-gray-700 text-base">
-                        {project.description.map((item, idx) => (
-                          <li key={idx} className="flex items-start gap-2">
-                            <span className="mt-1 text-blue-400">
-                              <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
-                                <circle cx="12" cy="12" r="10" fill="#60a5fa" />
-                                <path d="M9.5 12.5l2 2 3-4" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                              </svg>
-                            </span>
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <Paragraph className="text-gray-600 mb-6 text-lg">{project.description}</Paragraph>
-                    )}
-                    <Space wrap>
-                      {project.technologies.map((tech) => (
-                        <Tag key={tech} color="blue" className="text-base px-3 py-1">
-                          {tech}
-                        </Tag>
-                      ))}
-                    </Space>
-                  </div>
-                </div>
-              </Card>
-            </motion.div>
+              project={project}
+              index={index}
+              handleReset={handleReset}
+              controlsRefs={controlsRefs}
+              rowClass={rowClass}
+              initialX={initialX}
+            />
           );
         })}
       </div>
