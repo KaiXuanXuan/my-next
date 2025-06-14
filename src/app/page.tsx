@@ -7,7 +7,7 @@ import { SkillsShowcase } from '@/components/SkillsShowcase';
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <section id="resume" className="py-16 bg-gray-50">
+      <section id="resume" className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="rounded-lg p-6">
             <h1 className="text-4xl font-bold text-center mb-8">个人简历</h1>
@@ -23,7 +23,7 @@ export default function Home() {
         <SkillsShowcase />
       </section>
 
-      <section id="projects" className="py-16">
+      <section id="projects" className="py-16 bg-gray-50">
         <ProjectShowcase />
       </section>
     </main>

@@ -10,7 +10,7 @@ import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 interface Project {
   id: string;
   title: string;
-  description: string | string[];
+  description: string[];
   technologies: string[];
   modelPath?: string;
   cameraPosition?: [number, number, number];
@@ -110,7 +110,7 @@ interface ProjectCardProps {
 
 function ProjectCard(props: ProjectCardProps) {
   const { project, index, handleReset, controlsRefs, rowClass, initialX } = props;
-  const { Title, Paragraph } = Typography;
+  const { Title } = Typography;
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
   return (
     <motion.div
@@ -139,7 +139,7 @@ function ProjectCard(props: ProjectCardProps) {
               {inView ? (
                 <LazyCanvas project={project} index={index} handleReset={handleReset} controlsRefs={controlsRefs} />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gray-100 animate-pulse min-h-[200px]">3D加载中...</div>
+                <div className="w-full h-full flex items-center justify-center bg-yellow-50 animate-pulse min-h-[200px]">3D加载中...</div>
               )}
             </div>
           </div>
@@ -159,28 +159,63 @@ function ProjectCard(props: ProjectCardProps) {
                 >
                   {project.title}
                 </Title>
-                <span className="ml-2 px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-700 border border-yellow-300 align-middle select-none pointer-events-none">
+                <motion.button
+                  className="!ml-2 px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 !text-yellow-700 border border-yellow-300 align-middle select-none pointer-events-none relative overflow-hidden inline-block"
+                  animate={{
+                    scale: [1, 1.1, 1],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatDelay: 3,
+                    ease: "easeInOut"
+                  }}
+                >
                   点击跳转
-                </span>
+                  {/* 鼠标图案SVG - 右下角 */}
+                  <svg 
+                    className="absolute -bottom-1 -right-1 w-3 h-3 text-gray-600 pointer-events-none" 
+                    fill="currentColor" 
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path fillRule="evenodd" d="M6.672 1.911a1 1 0 10-1.932.518l.259.966a1 1 0 001.932-.518l-.26-.966zM2.429 4.74a1 1 0 10-.517 1.932l.966.259a1 1 0 00.517-1.932l-.966-.26zm8.814-.569a1 1 0 00-1.415-1.414l-.707.707a1 1 0 101.415 1.415l.707-.708zm-7.071 7.072l.707-.707A1 1 0 003.465 9.12l-.708.707a1 1 0 001.415 1.415zm3.2-5.171a1 1 0 00-1.3 1.3l4 10a1 1 0 001.823.075l1.38-2.759 3.018 3.02a1 1 0 001.414-1.415l-3.019-3.02 2.76-1.379a1 1 0 00-.076-1.822l-10-4z" clipRule="evenodd" />
+                  </svg>
+                  {/* 波纹效果 - 在按钮回弹时触发 */}
+                  <motion.div
+                    className="absolute inset-0 rounded bg-yellow-400/60 pointer-events-none"
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{
+                      scale: [0, 1.5],
+                      opacity: [0.8, 0],
+                    }}
+                    transition={{
+                      duration: 1.2,
+                      repeat: Infinity,
+                      repeatDelay: 3.8,
+                      delay: 1.3, // 延迟1.3秒，在按钮回弹时触发
+                      ease: "easeOut"
+                    }}
+                    style={{
+                      transformOrigin: "center center",
+                    }}
+                  />
+                </motion.button>
               </span>
             </div>
-            {Array.isArray(project.description) ? (
-              <ul className="mb-6 space-y-3 text-gray-700 text-base">
-                {project.description.map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-2">
-                    <span className="mt-1 text-blue-400">
-                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10" fill="#60a5fa" />
-                        <path d="M9.5 12.5l2 2 3-4" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <Paragraph className="text-gray-600 mb-6 text-lg">{project.description}</Paragraph>
-            )}
+            <ul className="mb-6 space-y-3 text-gray-700 text-base">
+              {project.description.map((item, idx) => (
+                <li key={idx} className="flex items-start gap-2">
+                  <span className="mt-1 text-blue-400">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10" fill="#60a5fa" />
+                      <path d="M9.5 12.5l2 2 3-4" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
             <Space wrap>
               {project.technologies.map((tech) => (
                 <Tag key={tech} color="blue" className="text-base px-3 py-1">

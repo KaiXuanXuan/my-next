@@ -7,7 +7,7 @@ import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 interface Project {
   id: string;
   title: string;
-  description: string | string[];
+  description: string[];
   technologies: string[];
   modelPath?: string;
   cameraPosition?: [number, number, number];
