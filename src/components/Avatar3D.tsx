@@ -8,12 +8,12 @@ import * as THREE from 'three';
 // 3D模型组件
 function ModelScene() {
   const modelRef = useRef<THREE.Group>(null);
-  const { scene } = useGLTF('/models/halloween/scene.gltf');
+  const { scene } = useGLTF('/models/pom-pom__blockbench/scene.gltf');
   
   useFrame(() => {
     if (modelRef.current) {
       // 缓慢自动旋转
-      modelRef.current.rotation.y += 0.005;
+      modelRef.current.rotation.y += 0.001;
     }
   });
 
@@ -21,8 +21,8 @@ function ModelScene() {
     <group ref={modelRef}>
       <primitive 
         object={scene} 
-        scale={[2, 2, 2]} 
-        position={[0, -1, 0]} 
+        scale={[1.5, 1.5, 1.5]} 
+        position={[0, -2, 0]} 
       />
     </group>
   );
@@ -85,4 +85,4 @@ export function Avatar3D() {
 }
 
 // 预加载模型
-useGLTF.preload('/models/halloween/scene.gltf'); 
+useGLTF.preload('/models/pom-pom__blockbench/scene.gltf'); 

@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { AwardSection } from './AwardSection';
 
@@ -15,8 +14,6 @@ const Avatar3D = dynamic(() => import('./Avatar3D').then(mod => ({ default: mod.
 });
 
 export function ProfileSection() {
-  const [showStaticView, setShowStaticView] = useState(false);
-
   const personalInfo = {
     name: "黄凯旋",
     email: "1749043188@qq.com",
@@ -31,16 +28,6 @@ export function ProfileSection() {
         {/* 标题区域 */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold mb-6">个人简历</h1>
-
-          {/* 3D/静态视图切换按钮 */}
-          <div className="flex justify-center mb-8">
-            <button
-              onClick={() => setShowStaticView(!showStaticView)}
-              className="px-4 py-2 bg-blue-500 !text-white rounded-lg hover:bg-blue-600 transition-colors text-sm"
-            >
-              {showStaticView ? '切换到3D视图' : '切换到静态视图'}
-            </button>
-          </div>
         </div>
 
         {/* 主要内容区域 */}
@@ -48,16 +35,7 @@ export function ProfileSection() {
           {/* 左侧：头像区域 */}
           <div className="flex justify-center">
             <div className="w-80 h-80">
-              {showStaticView ? (
-                // 静态头像
-                <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-600 rounded-lg flex flex-col items-center justify-center text-white shadow-xl">
-                  <div className="text-8xl mb-4">👨‍💻</div>
-                  <div className="text-2xl font-bold">{personalInfo.name}</div>
-                </div>
-              ) : (
-                // 3D头像
-                <Avatar3D />
-              )}
+              <Avatar3D />
             </div>
           </div>
 
