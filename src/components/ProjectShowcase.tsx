@@ -57,7 +57,7 @@ const projects: Project[] = [
       '多种卡片栏支持动态数量横向/纵向展开，悬浮切换样式丰富，交互多样',
       '全部样式与动画均采用原生 CSS 及 Vue transition 过渡组件，保证高性能渲染',
     ],
-    technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Ant Design'],
+    technologies: ['Vue3', 'Vite', 'CSS', 'Javascript'],
     modelPath: '/models/pusheen_vs_noodle/scene.gltf',
     cameraPosition: [-6, 3.5, 5],
     cameraTarget: [-4.8, 1, 0],
@@ -67,21 +67,22 @@ const projects: Project[] = [
   },
   {
     id: 'learning',
-    title: '在线学习平台',
-    description: '使用 Next.js 和 Ant Design 构建的在线学习平台，提供课程管理和学习进度跟踪功能。',
-    technologies: ['Next.js', 'Ant Design', 'TypeScript', 'MongoDB'],
-    // modelPath: '/models/pusheen/scene.gltf',
-    // cameraPosition: [2, 4.5, 18],
-    // cameraTarget: [-2.5, 4, 0],
-    // cameraFov: 50,
-    // backgroundColor: '#E6F2FF', // 淡蓝
-    // scale: 0.05,
+    title: '在线音乐平台',
+    description: [
+      '支持用户上传本地音乐文件，自动生成音乐列表，便于管理和播放',
+      '内置高性能音乐播放器，支持在线播放、暂停、停止、音量调节等常用操作',
+      '播放器界面简洁美观，支持实时进度显示和拖动切换播放进度',
+      '每首音乐均支持用户评论，评论区实时刷新，提升互动体验',
+      '所有数据存储与同步基于 Firebase 实现，保证多端数据一致性',
+      '页面采用响应式设计，兼容桌面端与移动端访问',
+    ],
+    technologies: ['HTML', 'CSS', 'JavaScript', 'Firebase'],
     modelPath: '/models/halloween/scene.gltf',
     cameraPosition: [0, -1, 11],
     cameraTarget: [-0.2, -1.5, 0],
     cameraFov: 50,
     backgroundColor: '#FFF9E3', // 淡黄色
-    url: 'https://kaixx.top/',
+    url: 'https://kxmusic.netlify.app/  ',
   },
 ];
 
