@@ -10,6 +10,20 @@ function ModelScene() {
   const modelRef = useRef<THREE.Group>(null);
   const { scene } = useGLTF('/models/pom-pom__blockbench/scene.gltf');
   
+  // 递归设置所有 mesh 的 castShadow
+  useEffect(() => {
+    scene.traverse((obj) => {
+      if ((obj as THREE.Mesh).isMesh) {
+        (obj as THREE.Mesh).castShadow = true;
+      }
+    });
+
+    // 沿y轴旋转180度，把模型转到正面
+    if (modelRef.current) {
+      modelRef.current.rotation.y = Math.PI;
+    }
+  }, [scene]);
+  
   useFrame(() => {
     if (modelRef.current) {
       // 缓慢自动旋转
@@ -18,11 +32,12 @@ function ModelScene() {
   });
 
   return (
-    <group ref={modelRef}>
+    <group ref={modelRef} castShadow>
       <primitive 
         object={scene} 
         scale={[1.5, 1.5, 1.5]} 
         position={[0, -2, 0]} 
+        castShadow
       />
     </group>
   );
@@ -52,17 +67,37 @@ export function Avatar3D() {
   }
 
   return (
-    <div className="w-full h-full relative">
+    <div className="w-full h-full relative rounded-lg overflow-hidden">
       <Canvas
         camera={{ position: [0, 0, 5], fov: 50 }}
         dpr={[1, 2]}
         performance={{ min: 0.5 }}
+        shadows
       >
+        {/* 背景 */}
+        <color attach="background" args={['#f0f0f0']} />
+        {/* 地板 */}
+        <mesh position={[0, -2, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+          <planeGeometry args={[100, 100]} />
+          <meshStandardMaterial color="#f0f0f0" />
+        </mesh>
+
         {/* 光照设置 */}
         <ambientLight intensity={0.4} />
-        <pointLight position={[10, 10, 10]} intensity={1} />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} />
-        <directionalLight position={[0, 10, 5]} intensity={0.8} />
+        <pointLight 
+          position={[1, 3.5, 3]} 
+          intensity={50}
+          castShadow
+          shadow-mapSize-width={1024}
+          shadow-mapSize-height={1024}
+          shadow-bias={-0.005}
+          shadow-camera-near={0.5}
+          shadow-camera-far={20}
+        />
+        <directionalLight 
+          position={[0, -1, -5]} 
+          intensity={0.7} 
+        />
         
         {/* 3D模型 */}
         <ModelScene />
@@ -77,9 +112,9 @@ export function Avatar3D() {
       </Canvas>
       
       {/* 交互提示 */}
-      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-xs text-gray-500 bg-white/80 px-2 py-1 rounded shadow">
+      {/* <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-xs text-gray-500 bg-white/80 px-2 py-1 rounded shadow">
         拖拽查看
-      </div>
+      </div> */}
     </div>
   );
 }
