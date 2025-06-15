@@ -71,7 +71,7 @@ export const SkillsShowcase: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 rounded-2xl p-8 shadow-lg border border-blue-200/60 flex flex-col md:col-span-3 relative overflow-hidden"
+          className="bg-gradient-to-br from-blue-50 via-cyan-50 to-purple-50 rounded-2xl p-8 shadow-lg border border-blue-200/60 flex flex-col md:col-span-3 relative overflow-hidden"
         >
           {/* 装饰性背景元素 */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-200/30 to-purple-200/30 rounded-full blur-3xl"></div>
