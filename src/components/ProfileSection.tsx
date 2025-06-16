@@ -4,6 +4,8 @@ import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import { AwardSection } from './AwardSection';
 
+
+
 // 动态加载3D组件，避免SSR问题
 const Avatar3D = dynamic(() => import('./Avatar3D').then(mod => ({ default: mod.Avatar3D })), {
   ssr: false,
@@ -53,6 +55,55 @@ export function ProfileSection() {
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @property --rotateDeg {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+          }
+
+          .animated-border-container {
+            background: conic-gradient(
+              from var(--rotateDeg),
+              #3b82f6,
+              #ffffff,
+              #06b6d4,
+              #8b5cf6,
+              #ffffff,
+              #06b6d4,
+              #3b82f6
+            );
+            animation: rotating 4s linear infinite;
+          }
+
+          .animated-border-glow {
+            background: conic-gradient(
+              from var(--rotateDeg),
+              #3b82f6,
+              #ffffff,
+              #06b6d4,
+              #8b5cf6,
+              #ffffff,
+              #06b6d4,
+              #3b82f6
+            );
+            animation: rotating 4s linear infinite;
+          }
+
+          @keyframes rotating {
+            0% {
+              --rotateDeg: 0deg;
+            }
+            50% {
+              --rotateDeg: 180deg;
+            }
+            100% {
+              --rotateDeg: 360deg;
+            }
+          }
+        `
+      }} />
       {/* 背景装饰 */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-3xl"></div>
@@ -83,11 +134,19 @@ export function ProfileSection() {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           >
             {/* 3D头像区域 - 与右侧基本信息高度对齐 */}
-            <div className="flex justify-center h-[280px]">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl blur-lg opacity-20 scale-110"></div>
-                <div className="relative w-64 h-64 bg-white rounded-xl shadow-xl p-3">
-                  <Avatar3D />
+            <div className="flex justify-center h-[280px] items-center">
+              <div className="relative w-64 h-64">
+                {/* 外层细边框 - 多色动态旋转 */}
+                <div className="animated-border-container absolute inset-0 rounded-2xl p-[2px]">
+                  {/* 发光模糊效果 */}
+                  <div className="animated-border-glow absolute inset-0 rounded-2xl opacity-60 blur-sm"></div>
+                  {/* 白色边框容器 */}
+                  <div className="relative w-full h-full bg-white rounded-2xl p-3 shadow-xl">
+                    {/* 3D头像内容 */}
+                    <div className="w-full h-full rounded-xl overflow-hidden">
+                      <Avatar3D />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
