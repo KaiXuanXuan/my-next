@@ -20,7 +20,8 @@ export function ProfileSection() {
     email: "1749043188@qq.com",
     phone: "+86 182-5795-2097",
     location: "广东省广州市",
-    description: "我是一名热爱钻研新技术，充满探索欲望的前端开发者。专注于现代 Web 开发技术，热衷于创造优雅的用户体验和高效的解决方案。"
+    education: "暨南大学 信息管理与信息系统",
+    description: "我是一名热爱钻研新技术，充满探索欲望的前端开发者。专注于现代 Web 开发技术。"
   };
 
   const contactInfo = [
@@ -28,19 +29,19 @@ export function ProfileSection() {
       label: "邮箱",
       value: personalInfo.email,
       href: `mailto:${personalInfo.email}`,
-      icon: "📧"
+      icon: <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M44 24V9H24H4V24V39H24" stroke="#ddd" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /><path d="M44 34L30 34" stroke="#ddd" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /><path d="M39 29L44 34L39 39" stroke="#ddd" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /><path d="M4 9L24 24L44 9" stroke="#ddd" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /></svg>
     },
     {
       label: "电话",
       value: personalInfo.phone,
       href: `tel:${personalInfo.phone}`,
-      icon: "📱"
+      icon: <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="11" y="4" width="26" height="40" rx="3" fill="none" stroke="#ddd" strokeWidth="4" /><path d="M22 10L26 10" stroke="#ddd" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /><path d="M20 38H28" stroke="#ddd" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /></svg>
     },
     {
       label: "地址",
       value: personalInfo.location,
       href: null,
-      icon: "📍"
+      icon: <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 36V44H40V4H8V12" stroke="#ddd" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /><path d="M6 30H10" stroke="#ddd" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /><path d="M6 24H10" stroke="#ddd" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /><path d="M6 18H10" stroke="#ddd" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /><circle cx="24" cy="17" r="4" fill="none" stroke="#ddd" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /><path d="M32 35C32 30.5817 28.4183 27 24 27C19.5817 27 16 30.5817 16 35" stroke="#ddd" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /></svg>
     }
   ];
 
@@ -60,7 +61,7 @@ export function ProfileSection() {
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* 标题区域 */}
-        <motion.div 
+        <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -74,24 +75,26 @@ export function ProfileSection() {
 
         {/* 主要内容区域 */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-          {/* 左侧：头像区域 */}
-          <motion.div 
-            className="lg:col-span-1 flex flex-col items-center space-y-6"
+          {/* 左侧：头像和统计区域 */}
+          <motion.div
+            className="lg:col-span-1 space-y-6"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           >
-            {/* 3D头像 */}
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl blur-lg opacity-20 scale-110"></div>
-              <div className="relative w-64 h-64 bg-white rounded-xl shadow-xl p-3">
-                <Avatar3D />
+            {/* 3D头像区域 - 与右侧基本信息高度对齐 */}
+            <div className="flex justify-center h-[280px]">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl blur-lg opacity-20 scale-110"></div>
+                <div className="relative w-64 h-64 bg-white rounded-xl shadow-xl p-3">
+                  <Avatar3D />
+                </div>
               </div>
             </div>
 
-            {/* 统计信息 */}
-            <div className="w-full max-w-xs bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/20">
-              <div className="grid grid-cols-3 gap-4 text-center">
+            {/* 统计信息区域 - 与右侧联系方式高度对齐 */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 h-[140px] flex items-center justify-center">
+              <div className="grid grid-cols-3 gap-6 text-center w-full">
                 {stats.map((stat, index) => (
                   <motion.div
                     key={stat.label}
@@ -109,60 +112,63 @@ export function ProfileSection() {
           </motion.div>
 
           {/* 右侧：个人信息 */}
-          <motion.div 
+          <motion.div
             className="lg:col-span-2 space-y-6"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
           >
-            {/* 基本信息和简介合并 */}
-            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20">
-              <motion.div 
+            {/* 基本信息和简介区域 - 与左侧头像高度对齐 */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 h-[280px] flex flex-col !justify-center">
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
               >
-                <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-2">
+                <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent !mb-8">
                   {personalInfo.name}
                 </h2>
-                <div className="flex items-center text-gray-600 mb-4">
-                  <span className="text-base mr-2">🎯</span>
-                  <span className="text-base font-medium">前端开发工程师</span>
+                <div className="flex items-center text-gray-600 mb-4 font-medium">
+                  <span className="w-1.5 h-6 bg-gradient-to-b from-blue-500 to-purple-500 mr-3 rounded-full"></span>
+                  <span className="text-base font-medium">教育经历</span>
                 </div>
-                <motion.div 
-                  className="w-12 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mb-4"
-                  initial={{ width: 0 }}
-                  animate={{ width: 48 }}
-                  transition={{ duration: 0.8, delay: 0.8 }}
-                ></motion.div>
                 <p className="text-gray-700 leading-relaxed text-base">
+                  {personalInfo.education}
+                </p>
+                <div className="flex items-center text-gray-600 mb-4 font-medium">
+                  <span className="w-1.5 h-6 bg-gradient-to-b from-blue-500 to-purple-500 mr-3 rounded-full"></span>
+                  <span className="text-base font-medium">关于我</span>
+                </div>
+                <p className="text-gray-700 leading-relaxed text-base !mb-0">
                   {personalInfo.description}
                 </p>
               </motion.div>
             </div>
 
-            {/* 联系方式 */}
-            <motion.div 
-              className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20"
+            {/* 联系方式区域 - 与左侧统计信息高度对齐 */}
+            <motion.div
+              className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-white/20 h-[140px] flex flex-col justify-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
             >
-              <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center">
+              <h3 className="text-xl font-bold text-gray-800 !mb-4 flex items-center">
                 <span className="w-1.5 h-6 bg-gradient-to-b from-cyan-500 to-blue-500 mr-3 rounded-full"></span>
                 联系方式
               </h3>
-              <div className="space-y-3">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {contactInfo.map((contact, index) => (
                   <motion.div
                     key={contact.label}
                     className="flex items-center space-x-3 group"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 1 + index * 0.1 }}
                   >
                     <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center text-white shadow-sm group-hover:scale-110 transition-transform duration-300">
-                      <span className="text-sm">{contact.icon}</span>
+                      <span className="text-sm">
+                        {contact.icon}
+                      </span>
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="text-xs text-gray-500 font-medium">{contact.label}</div>
