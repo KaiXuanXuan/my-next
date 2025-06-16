@@ -36,7 +36,7 @@ function copyDirectory(src, dest) {
 }
 
 // 模型文件夹路径
-const MODELS_DIR = path.join(__dirname, '../public/models');
+const MODELS_DIR = path.join(__dirname, '../public/models-original');
 const COMPRESSED_DIR = path.join(__dirname, '../public/models-compressed');
 
 // 创建压缩目录
@@ -134,7 +134,7 @@ modelDirs.forEach(dirName => {
 
 console.log('🎉 模型处理完成！');
 console.log('\n📝 使用处理后模型的步骤:');
-console.log('1. 将 public/models 备份为 public/models-original');
+console.log('1. 将 public/models 备份为 public/models-backup');
 console.log('2. 将 public/models-compressed 重命名为 public/models'); 
 console.log('3. 测试网站加载速度');
 console.log('\n💡 注意: 某些模型可能已经过优化，压缩效果有限'); 
