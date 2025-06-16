@@ -196,13 +196,14 @@ export function Avatar3D() {
   );
 }
 
-// 预加载模型，但延迟执行避免冲突
+// 预加载模型，但延迟执行避免冲突，支持Draco压缩
 if (typeof window !== 'undefined') {
   setTimeout(() => {
     try {
+      // useGLTF.preload 自动支持 Draco 压缩的模型
       useGLTF.preload('/models/pom-pom__blockbench/scene.gltf');
     } catch (error) {
       console.warn('头像模型预加载失败:', error);
     }
-  }, 500); // 延迟1秒预加载，避免与其他3D组件冲突
+  }, 500); // 延迟500毫秒预加载，避免与其他3D组件冲突
 } 

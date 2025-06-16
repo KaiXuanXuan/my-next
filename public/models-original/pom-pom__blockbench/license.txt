@@ -1,0 +1,11 @@
+Model Information:
+* title:	Pom-Pom | Blockbench
+* source:	https://sketchfab.com/3d-models/pom-pom-blockbench-95eb7bb9ebf34d6da1b39eb2c175b1e6
+* author:	Jpex8 (https://sketchfab.com/jwortega123)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Pom-Pom | Blockbench" (https://sketchfab.com/3d-models/pom-pom-blockbench-95eb7bb9ebf34d6da1b39eb2c175b1e6) by Jpex8 (https://sketchfab.com/jwortega123) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

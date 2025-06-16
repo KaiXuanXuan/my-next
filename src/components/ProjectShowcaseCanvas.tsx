@@ -33,7 +33,7 @@ function ProjectModel({ modelPath, scale, onLoaded, onError }: {
 }) {
   const [loadState, setLoadState] = useState<'loading' | 'loaded' | 'error'>('loading');
   
-  // 始终调用所有hooks
+  // 始终调用所有hooks，使用默认的useGLTF（自动支持Draco）
   const gltfData = useGLTF(modelPath || '', true);
   const { actions } = useAnimations(gltfData.animations, gltfData.scene);
 
@@ -78,10 +78,12 @@ const ProjectShowcaseCanvas: React.FC<ProjectShowcaseCanvasProps> = ({ project, 
   const [modelLoaded, setModelLoaded] = useState(false);
   const [canvasReady, setCanvasReady] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
 
   // 缓存回调函数避免重新渲染
   const handleModelLoaded = useCallback(() => {
     setModelLoaded(true);
+    setLoadingProgress(100);
   }, []);
 
   const handleModelError = useCallback(() => {
@@ -118,15 +120,26 @@ const ProjectShowcaseCanvas: React.FC<ProjectShowcaseCanvasProps> = ({ project, 
 
   return (
     <div className="w-full h-full flex items-center justify-center relative">
-      {/* SVG 加载动画，只有 3D 全部加载完毕后才隐藏 */}
+      {/* 增强的加载动画，包含进度指示 */}
       {!show3D && (
         <div className="absolute inset-0 z-10 flex items-center justify-center bg-gradient-to-br from-yellow-50 to-orange-50 min-h-[200px]">
-          <div className="relative z-10">
-            <svg className="animate-spin h-12 w-12 text-yellow-500 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <div className="relative z-10 text-center">
+            <svg className="animate-spin h-12 w-12 text-yellow-500 mb-4 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
             </svg>
-            <p className="text-yellow-600 text-sm font-medium animate-pulse">3D模型渲染中...</p>
+            <p className="text-yellow-600 text-sm font-medium animate-pulse mb-2">
+              {loadingProgress > 0 ? '3D模型解压中...' : '3D模型下载中...'}
+            </p>
+            {/* 进度条 */}
+            {loadingProgress > 0 && (
+              <div className="w-32 h-1 bg-yellow-200 rounded-full mx-auto overflow-hidden">
+                <div 
+                  className="h-full bg-yellow-500 rounded-full transition-all duration-300 ease-out"
+                  style={{ width: `${loadingProgress}%` }}
+                />
+              </div>
+            )}
           </div>
           {/* 背景装饰 */}
           <div className="absolute inset-0 bg-gradient-to-br from-yellow-100/20 to-orange-100/20"></div>
