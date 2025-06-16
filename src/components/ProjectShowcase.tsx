@@ -24,7 +24,7 @@ interface Project {
 const projects: Project[] = [
   {
     id: 'blog',
-    title: '个人博客与效率平台',
+    title: '个人博客与效率平台 ⭐⭐⭐⭐⭐',
     description: [
       '以 Vue3 + Vite + Tailwind CSS + Shadcn UI 构建的高效个人博客与工作平台',
       '支持权限管理的一站式 Markdown 博客编辑与预览',
@@ -44,7 +44,7 @@ const projects: Project[] = [
   },
   {
     id: 'dingding',
-    title: '高仿钉钉官网首页',
+    title: '高仿钉钉官网首页 ⭐⭐⭐⭐',
     description: [
       '高度还原钉钉官网首页，完整复刻其动画与布局，细节高度一致',
       '所有图片资源均通过爬虫自动获取，实现视觉与交互的极致还原',
@@ -64,7 +64,7 @@ const projects: Project[] = [
   },
   {
     id: 'music',
-    title: '在线音乐平台',
+    title: '在线音乐平台 ⭐⭐⭐',
     description: [
       '支持用户上传本地音乐文件，自动生成音乐列表，便于管理和播放',
       '内置高性能音乐播放器，支持在线播放、暂停、停止、音量调节等常用操作',
