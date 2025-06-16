@@ -138,7 +138,7 @@ function ProjectCard(props: ProjectCardProps) {
               {inView ? (
                 <LazyCanvas project={project} index={index} handleReset={handleReset} controlsRefs={controlsRefs} />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-yellow-50 animate-pulse min-h-[200px]">3D加载中...</div>
+                <div className="w-full h-full flex items-center justify-center bg-yellow-50 min-h-[200px]">3D加载中...</div>
               )}
             </div>
           </div>
