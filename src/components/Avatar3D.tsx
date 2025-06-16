@@ -119,5 +119,5 @@ export function Avatar3D() {
   );
 }
 
-// 预加载模型
+// 预加载模型，避免3D模型加载失败
 useGLTF.preload('/models/pom-pom__blockbench/scene.gltf'); 
