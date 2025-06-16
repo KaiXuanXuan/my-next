@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Card, Typography, Space, Tag } from 'antd';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
@@ -83,18 +83,38 @@ const projects: Project[] = [
   },
 ];
 
-// 动态导入 Canvas 及相关依赖，避免初始包体过大
+// 预加载关键3D资源（仅预加载库，不预加载模型文件避免冲突）
+const preloadKey3DResources = () => {
+  if (typeof window !== 'undefined') {
+    // 预加载Three.js相关库，提升后续3D组件加载速度
+    import('@react-three/fiber');
+    import('@react-three/drei');
+    // 注意：不预加载模型文件，避免与头像等其他3D组件产生资源冲突
+  }
+};
+
+// 更智能的动态导入配置
 const LazyCanvas = dynamic(
   () => import('./ProjectShowcaseCanvas'),
   {
     loading: () => (
-      <div className="w-full h-full flex items-center justify-center bg-yellow-50 animate-pulse min-h-[200px]">
-        <svg className="animate-spin h-10 w-10 text-yellow-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-        </svg>
-      </div>),
-    ssr: false
+      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-yellow-50 to-orange-50 min-h-[200px] relative overflow-hidden">
+        {/* 更精美的加载动画 */}
+        <div className="relative z-10">
+          <svg className="animate-spin h-12 w-12 text-yellow-500 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+          </svg>
+          <p className="text-yellow-600 text-sm font-medium animate-pulse">3D模型加载中...</p>
+        </div>
+        {/* 背景装饰 */}
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-100/20 to-orange-100/20"></div>
+        <div className="absolute top-4 left-4 w-16 h-16 bg-yellow-200/30 rounded-full animate-bounce"></div>
+        <div className="absolute bottom-6 right-6 w-8 h-8 bg-orange-200/40 rounded-full animate-pulse"></div>
+        <div className="absolute top-1/2 left-1/4 w-12 h-12 bg-yellow-300/20 rounded-full animate-ping"></div>
+      </div>
+    ),
+    ssr: false // 3D模型必须禁用SSR，因为WebGL只在浏览器中可用
   }
 );
 
@@ -105,10 +125,11 @@ interface ProjectCardProps {
   controlsRefs: React.MutableRefObject<(OrbitControlsImpl | null)[]>;
   rowClass: string;
   initialX: number;
+  has3DSupport: boolean | null;
 }
 
 function ProjectCard(props: ProjectCardProps) {
-  const { project, index, handleReset, controlsRefs, rowClass, initialX } = props;
+  const { project, index, handleReset, controlsRefs, rowClass, initialX, has3DSupport } = props;
   const { Title } = Typography;
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
   return (
@@ -135,10 +156,25 @@ function ProjectCard(props: ProjectCardProps) {
         <div className={`flex flex-col ${rowClass} w-full rounded-lg overflow-hidden`}>
           <div className="w-full md:w-1/3 aspect-square min-h-[200px] bg-gray-100 flex-shrink-0">
             <div ref={ref} className="w-full h-full">
-              {inView ? (
-                <LazyCanvas project={project} index={index} handleReset={handleReset} controlsRefs={controlsRefs} />
+              {has3DSupport === true ? (
+                inView ? (
+                  <LazyCanvas project={project} index={index} handleReset={handleReset} controlsRefs={controlsRefs} />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center bg-yellow-50 min-h-[200px]">3D加载中...</div>
+                )
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-yellow-50 min-h-[200px]">3D加载中...</div>
+                <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 min-h-[200px]">
+                  <div className="text-center">
+                    <div className="w-16 h-16 mx-auto mb-4 bg-gray-200 rounded-lg flex items-center justify-center">
+                      <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                      </svg>
+                    </div>
+                    <p className="text-gray-500 text-sm">
+                      静态展示模式
+                    </p>
+                  </div>
+                </div>
               )}
             </div>
           </div>
@@ -230,8 +266,29 @@ function ProjectCard(props: ProjectCardProps) {
 }
 
 export const ProjectShowcase: React.FC = () => {
+  const [has3DSupport, setHas3DSupport] = useState<boolean | null>(null);
   // 用于存储每个 OrbitControls 的引用
   const controlsRefs = useRef<(OrbitControlsImpl | null)[]>([]);
+
+  // 检测WebGL支持并预加载资源
+  useEffect(() => {
+    // 检测WebGL支持
+    const checkWebGLSupport = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        setHas3DSupport(!!gl);
+        if (gl) {
+          // 有WebGL支持时才预加载3D资源
+          preloadKey3DResources();
+        }
+             } catch {
+         setHas3DSupport(false);
+       }
+    };
+
+    checkWebGLSupport();
+  }, []);
 
   // 回正动画函数
   const handleReset = (controls: OrbitControlsImpl | null, project: Project) => {
@@ -284,6 +341,21 @@ export const ProjectShowcase: React.FC = () => {
           精心打造的项目作品，展现技术实力与创新思维
         </p>
       </motion.div>
+      
+      {/* WebGL不支持时的提示 */}
+      {has3DSupport === false && (
+        <motion.div 
+          className="mb-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-center"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <p className="text-yellow-700">
+            您的浏览器不支持WebGL，3D效果将自动降级为静态展示
+          </p>
+        </motion.div>
+      )}
+
       <div className="space-y-16">
         {projects.map((project, index) => {
           const isEven = index % 2 === 0;
@@ -298,6 +370,7 @@ export const ProjectShowcase: React.FC = () => {
               controlsRefs={controlsRefs}
               rowClass={rowClass}
               initialX={initialX}
+              has3DSupport={has3DSupport}
             />
           );
         })}
