@@ -230,7 +230,6 @@ function ProjectCard(props: ProjectCardProps) {
 }
 
 export const ProjectShowcase: React.FC = () => {
-  const { Title } = Typography;
   // 用于存储每个 OrbitControls 的引用
   const controlsRefs = useRef<(OrbitControlsImpl | null)[]>([]);
 
@@ -269,9 +268,22 @@ export const ProjectShowcase: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <Title level={2} className="text-center mb-12">
-        项目展示
-      </Title>
+      {/* 标题区域 */}
+      <motion.div 
+        className="text-center mb-16"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
+        <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 via-cyan-700 to-blue-700 bg-clip-text text-transparent mb-4">
+          项目展示
+        </h2>
+        <div className="w-20 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto rounded-full"></div>
+        <p className="text-gray-600 text-lg mt-6 max-w-2xl mx-auto font-light">
+          精心打造的项目作品，展现技术实力与创新思维
+        </p>
+      </motion.div>
       <div className="space-y-16">
         {projects.map((project, index) => {
           const isEven = index % 2 === 0;

@@ -61,9 +61,22 @@ const otherSkills: Skill[] = [
 export const SkillsShowcase: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <Title level={2} className="text-center mb-12">
-        技能展示
-      </Title>
+      {/* 标题区域 */}
+      <motion.div 
+        className="text-center mb-16"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
+        <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-700 to-purple-700 bg-clip-text text-transparent mb-4">
+          技能展示
+        </h2>
+        <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"></div>
+        <p className="text-gray-600 text-lg mt-6 max-w-2xl mx-auto font-light">
+          掌握现代前端技术栈，专注于用户体验和性能优化
+        </p>
+      </motion.div>
       <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
         {/* 前端开发大板块 - 现代化浅色风格 */}
         <motion.div
