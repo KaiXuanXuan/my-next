@@ -10,7 +10,7 @@ import { AwardSection } from './AwardSection';
 const Avatar3D = dynamic(() => import('./Avatar3D').then(mod => ({ default: mod.Avatar3D })), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 animate-pulse rounded-xl flex items-center justify-center shadow-inner">
+    <div className="w-full h-full bg-gray-200 animate-pulse rounded-xl flex items-center justify-center shadow-inner">
       <div className="text-gray-400 text-xs sm:text-sm font-medium">头像加载中...</div>
     </div>
   ),
@@ -54,10 +54,10 @@ export function ProfileSection() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div className="relative min-h-screen gradient-bg-main">
       <style dangerouslySetInnerHTML={{
         __html: `
-          /* 兼容性优化：为不支持@property的浏览器提供回退 */
+          /* 移除之前的复杂CSS动画，使用简单兼容的版本 */
           .animated-border-container {
             background: linear-gradient(45deg, #3b82f6, #ffffff, #06b6d4, #8b5cf6);
             background-size: 400% 400%;
@@ -69,81 +69,12 @@ export function ProfileSection() {
             background-size: 400% 400%;
             animation: gradient-shift 4s ease-in-out infinite;
           }
-
-          /* 支持@property的现代浏览器 */
-          @supports (background: conic-gradient(from 0deg, red, blue)) {
-            @property --rotateDeg {
-              syntax: '<angle>';
-              initial-value: 0deg;
-              inherits: false;
-            }
-
-            .animated-border-container {
-              background: conic-gradient(
-                from var(--rotateDeg),
-                #3b82f6,
-                #ffffff,
-                #06b6d4,
-                #8b5cf6,
-                #ffffff,
-                #06b6d4,
-                #3b82f6
-              );
-              animation: rotating 4s linear infinite;
-            }
-
-            .animated-border-glow {
-              background: conic-gradient(
-                from var(--rotateDeg),
-                #3b82f6,
-                #ffffff,
-                #06b6d4,
-                #8b5cf6,
-                #ffffff,
-                #06b6d4,
-                #3b82f6
-              );
-              animation: rotating 4s linear infinite;
-            }
-
-            @keyframes rotating {
-              0% {
-                --rotateDeg: 0deg;
-              }
-              50% {
-                --rotateDeg: 180deg;
-              }
-              100% {
-                --rotateDeg: 360deg;
-              }
-            }
-          }
-
-          /* 回退动画 */
-          @keyframes gradient-shift {
-            0%, 100% {
-              background-position: 0% 50%;
-            }
-            50% {
-              background-position: 100% 50%;
-            }
-          }
-
-          /* 添加webkit前缀支持 */
-          .bg-clip-text {
-            -webkit-background-clip: text;
-            background-clip: text;
-          }
-
-          .text-transparent {
-            -webkit-text-fill-color: transparent;
-          }
         `
       }} />
       {/* 背景装饰 */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-r from-cyan-400/20 to-blue-400/20 rounded-full blur-3xl"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-cyan-400/20 rounded-full blur-3xl"></div>
       </div>
 
       <div className="relative max-w-6xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
@@ -154,10 +85,10 @@ export function ProfileSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent mb-3">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold gradient-text-title mb-3">
             个人简历
           </h1>
-          <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"></div>
+          <div className="w-16 sm:w-20 h-1 gradient-line-blue mx-auto rounded-full"></div>
         </motion.div>
 
         {/* 主要内容区域 - 移动端改为垂直布局 */}
@@ -226,12 +157,12 @@ export function ProfileSection() {
                 transition={{ duration: 0.8, delay: 0.6 }}
                 className="space-y-4 sm:space-y-6 lg:space-y-8"
               >
-                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800">
                   {personalInfo.name}
                 </h2>
                 <div className="space-y-3 sm:space-y-4">
                   <div className="flex items-center text-gray-600 font-medium">
-                    <span className="w-1.5 h-4 sm:h-5 lg:h-6 bg-gradient-to-b from-blue-500 to-purple-500 mr-2 sm:mr-3 rounded-full"></span>
+                    <span className="w-1.5 h-4 sm:h-5 lg:h-6 gradient-line-blue mr-2 sm:mr-3 rounded-full"></span>
                     <span className="text-sm sm:text-base font-medium">教育经历</span>
                   </div>
                   <p className="text-gray-700 leading-relaxed text-sm sm:text-base pl-5 sm:pl-6">
@@ -240,7 +171,7 @@ export function ProfileSection() {
                 </div>
                 <div className="space-y-3 sm:space-y-4">
                   <div className="flex items-center text-gray-600 font-medium">
-                    <span className="w-1.5 h-4 sm:h-5 lg:h-6 bg-gradient-to-b from-blue-500 to-purple-500 mr-2 sm:mr-3 rounded-full"></span>
+                    <span className="w-1.5 h-4 sm:h-5 lg:h-6 gradient-line-blue mr-2 sm:mr-3 rounded-full"></span>
                     <span className="text-sm sm:text-base font-medium">关于我</span>
                   </div>
                   <p className="text-gray-700 leading-relaxed text-sm sm:text-base pl-5 sm:pl-6">
@@ -258,7 +189,7 @@ export function ProfileSection() {
               transition={{ duration: 0.8, delay: 0.8 }}
             >
               <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4 flex items-center">
-                <span className="w-1.5 h-4 sm:h-5 lg:h-6 bg-gradient-to-b from-cyan-500 to-blue-500 mr-2 sm:mr-3 rounded-full"></span>
+                <span className="w-1.5 h-4 sm:h-5 lg:h-6 gradient-line-cyan mr-2 sm:mr-3 rounded-full"></span>
                 联系方式
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
@@ -274,7 +205,7 @@ export function ProfileSection() {
                       ease: "easeOut"
                     }}
                   >
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center text-white shadow-sm group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 gradient-btn-blue rounded-lg flex items-center justify-center text-white shadow-sm group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
                       <span className="text-xs sm:text-sm">
                         {contact.icon}
                       </span>

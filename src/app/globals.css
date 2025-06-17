@@ -25,40 +25,70 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* 仅在不支持 oklab 的浏览器中应用修复 */
-@supports not (background: oklch(0.5 0.2 180)) {
-  .bg-gradient-to-r {
-    background-image: linear-gradient(to right, var(--tw-gradient-stops));
-  }
-  .bg-gradient-to-l {
-    background-image: linear-gradient(to left, var(--tw-gradient-stops));
-  }
-  .bg-gradient-to-t {
-    background-image: linear-gradient(to top, var(--tw-gradient-stops));
-  }
-  .bg-gradient-to-b {
-    background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
-  }
-  .bg-gradient-to-tr {
-    background-image: linear-gradient(to top right, var(--tw-gradient-stops));
-  }
-  .bg-gradient-to-tl {
-    background-image: linear-gradient(to top left, var(--tw-gradient-stops));
-  }
-  .bg-gradient-to-br {
-    background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
-  }
-  .bg-gradient-to-bl {
-    background-image: linear-gradient(to bottom left, var(--tw-gradient-stops));
-  }
+/* 原生CSS渐变类 - 确保移动端兼容性 */
+.gradient-bg-main {
+  background: linear-gradient(135deg, #f1f5f9, #f4faff, #f2ebfd);
 }
 
-/* webkit 前缀支持 - 始终应用 */
-.bg-clip-text {
+.gradient-text-title {
+  background: linear-gradient(90deg, #1f2937, #1e40af, #7c3aed);
   -webkit-background-clip: text;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
-.text-transparent {
+.gradient-text-award {
+  background: linear-gradient(90deg, #1f2937, #b45309, #d97706);
+  -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.gradient-border-blue {
+  background: linear-gradient(45deg, #3b82f6, #ffffff, #06b6d4, #8b5cf6);
+  background-size: 400% 400%;
+  animation: gradient-shift 4s ease-in-out infinite;
+}
+
+.gradient-btn-blue {
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+}
+
+.gradient-btn-yellow {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+}
+
+.gradient-btn-gray {
+  background: linear-gradient(90deg, #9ca3af, #6b7280);
+}
+
+.gradient-bg-yellow {
+  background: linear-gradient(135deg, #fefce8, #fef3c7);
+}
+
+.gradient-bg-gray {
+  background: linear-gradient(135deg, #f9fafb, #f3f4f6);
+}
+
+.gradient-line-blue {
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+}
+
+.gradient-line-yellow {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+}
+
+.gradient-line-cyan {
+  background: linear-gradient(90deg, #06b6d4, #3b82f6);
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
