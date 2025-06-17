@@ -55,22 +55,6 @@ export function ProfileSection() {
 
   return (
     <div className="relative min-h-screen gradient-bg-main">
-      <style dangerouslySetInnerHTML={{
-        __html: `
-          /* 移除之前的复杂CSS动画，使用简单兼容的版本 */
-          .animated-border-container {
-            background: linear-gradient(45deg, #3b82f6, #ffffff, #06b6d4, #8b5cf6);
-            background-size: 400% 400%;
-            animation: gradient-shift 4s ease-in-out infinite;
-          }
-
-          .animated-border-glow {
-            background: linear-gradient(45deg, #3b82f6, #ffffff, #06b6d4, #8b5cf6);
-            background-size: 400% 400%;
-            animation: gradient-shift 4s ease-in-out infinite;
-          }
-        `
-      }} />
       {/* 背景装饰 */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-400/20 rounded-full blur-3xl"></div>
@@ -103,7 +87,7 @@ export function ProfileSection() {
             {/* 3D头像区域 - 移动端优化尺寸 */}
             <div className="flex justify-center h-[200px] sm:h-[240px] lg:h-[280px] items-center">
               <div className="relative w-44 h-44 sm:w-52 sm:h-52 lg:w-64 lg:h-64">
-                {/* 外层细边框 - 多色动态旋转 */}
+                {/* 外层旋转边框 - 正确的颜色旋转效果 */}
                 <div className="animated-border-container absolute inset-0 rounded-2xl p-[2px]">
                   {/* 发光模糊效果 */}
                   <div className="animated-border-glow absolute inset-0 rounded-2xl opacity-60 blur-sm"></div>

@@ -55,6 +55,14 @@ body {
   color: transparent;
 }
 
+.gradient-text-project {
+  background: linear-gradient(90deg, #1f2937, #06b6d4, #3b82f6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
 .gradient-bg-skills-main {
   background: linear-gradient(135deg, #dbeafe, #e0f2fe, #f3e8ff);
 }
@@ -63,9 +71,48 @@ body {
   background: linear-gradient(135deg, #ffffff, #f8fafc);
 }
 
+/* 正确的旋转边框效果 - 颜色旋转而不是背景旋转 */
 .gradient-border-blue {
-  background: conic-gradient(from 0deg, #3b82f6, #ffffff, #06b6d4, #8b5cf6, #ffffff, #06b6d4, #3b82f6);
-  animation: rotate-border 4s linear infinite;
+  background: conic-gradient(
+    from var(--rotateDeg),
+    #3b82f6,
+    #ffffff,
+    #06b6d4,
+    #8b5cf6,
+    #ffffff,
+    #06b6d4,
+    #3b82f6
+  );
+  animation: rotating 4s linear infinite;
+}
+
+/* 头像边框动画容器 - 支持模糊发光效果 */
+.animated-border-container {
+  background: conic-gradient(
+    from var(--rotateDeg),
+    #3b82f6,
+    #ffffff,
+    #06b6d4,
+    #8b5cf6,
+    #ffffff,
+    #06b6d4,
+    #3b82f6
+  );
+  animation: rotating 4s linear infinite;
+}
+
+.animated-border-glow {
+  background: conic-gradient(
+    from var(--rotateDeg),
+    #3b82f6,
+    #ffffff,
+    #06b6d4,
+    #8b5cf6,
+    #ffffff,
+    #06b6d4,
+    #3b82f6
+  );
+  animation: rotating 4s linear infinite;
 }
 
 .gradient-btn-blue {
@@ -100,21 +147,38 @@ body {
   background: linear-gradient(90deg, #06b6d4, #3b82f6);
 }
 
-.gradient-line-skills {
-  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+/* CSS自定义属性定义 - 支持现代浏览器 */
+@property --rotateDeg {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
 }
 
-/* 头像边框真正的旋转动画 */
-@keyframes rotate-border {
+/* 正确的旋转动画 - 改变渐变角度而不是元素旋转 */
+@keyframes rotating {
   0% {
-    transform: rotate(0deg);
+    --rotateDeg: 0deg;
+  }
+  50% {
+    --rotateDeg: 180deg;
   }
   100% {
-    transform: rotate(360deg);
+    --rotateDeg: 360deg;
   }
 }
 
-/* 保留原来的呼吸动画作为备用 */
+/* 旧浏览器回退动画 - 针对不支持 @property 的浏览器 */
+@supports not (background: conic-gradient(from 0deg, red, blue)) {
+  .gradient-border-blue,
+  .animated-border-container,
+  .animated-border-glow {
+    background: linear-gradient(45deg, #3b82f6, #ffffff, #06b6d4, #8b5cf6);
+    background-size: 400% 400%;
+    animation: gradient-shift 4s ease-in-out infinite;
+  }
+}
+
+/* 保留原来的呼吸动画作为不支持conic-gradient的回退 */
 @keyframes gradient-shift {
   0%, 100% {
     background-position: 0% 50%;

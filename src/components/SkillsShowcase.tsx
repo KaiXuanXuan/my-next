@@ -72,7 +72,7 @@ export const SkillsShowcase: React.FC = () => {
         <h2 className="text-4xl md:text-5xl font-bold gradient-text-skills mb-4">
           技能展示
         </h2>
-        <div className="w-20 h-1 gradient-line-skills mx-auto rounded-full"></div>
+        <div className="w-20 h-1 gradient-line-blue mx-auto rounded-full"></div>
         <p className="text-gray-600 text-lg mt-6 max-w-2xl mx-auto font-light">
           掌握现代前端技术栈，专注于用户体验和性能优化
         </p>
