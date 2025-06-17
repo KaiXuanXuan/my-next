@@ -202,7 +202,7 @@ function ProjectCard(props: ProjectCardProps) {
                   transition={{
                     duration: 2,
                     repeat: Infinity,
-                    repeatDelay: 3,
+                    repeatDelay: 1,
                     ease: "easeInOut"
                   }}
                 >
@@ -227,7 +227,7 @@ function ProjectCard(props: ProjectCardProps) {
                     transition={{
                       duration: 1.2,
                       repeat: Infinity,
-                      repeatDelay: 3.8,
+                      repeatDelay: 1.8,
                       delay: 1.3, // 延迟1.3秒，在按钮回弹时触发
                       ease: "easeOut"
                     }}
