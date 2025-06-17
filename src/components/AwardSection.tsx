@@ -54,34 +54,34 @@ const itemVariants = {
 
 export const AwardSection: React.FC = () => {
   return (
-    <section className="relative py-20">
+    <section className="relative py-12 sm:py-16 lg:py-20">
       {/* 背景装饰 */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-10 right-10 w-32 h-32 bg-gradient-to-r from-yellow-400/10 to-amber-400/10 rounded-full blur-2xl"></div>
         <div className="absolute bottom-10 left-10 w-40 h-40 bg-gradient-to-r from-gray-400/10 to-slate-400/10 rounded-full blur-2xl"></div>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
         {/* 标题区域 */}
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-14 lg:mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 via-yellow-700 to-amber-700 bg-clip-text text-transparent mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-gray-900 via-yellow-700 to-amber-700 bg-clip-text text-transparent mb-4">
             获奖经历
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-yellow-500 to-amber-500 mx-auto rounded-full"></div>
-          <p className="text-gray-600 text-lg mt-6 max-w-2xl mx-auto font-light">
+          <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-yellow-500 to-amber-500 mx-auto rounded-full"></div>
+          <p className="text-gray-600 text-sm sm:text-base lg:text-lg mt-4 sm:mt-6 max-w-2xl mx-auto font-light">
             在学术竞赛中展现实力，通过团队协作获得优异成绩
           </p>
         </motion.div>
 
-        {/* 获奖列表 */}
+        {/* 获奖列表 - 移动端改为单列布局 */}
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -98,38 +98,38 @@ export const AwardSection: React.FC = () => {
               className="group relative"
             >
               {/* 卡片主体 */}
-              <div className={`relative bg-gradient-to-br ${award.bgGradient} rounded-2xl p-8 shadow-xl border border-white/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-300`}>
+              <div className={`relative bg-gradient-to-br ${award.bgGradient} rounded-2xl p-5 sm:p-6 lg:p-8 shadow-xl border border-white/50 backdrop-blur-sm hover:shadow-2xl transition-all duration-300`}>
                 {/* 装饰性渐变边框 */}
                 <div className={`absolute inset-0 bg-gradient-to-r ${award.gradient} opacity-0 group-hover:opacity-20 rounded-2xl transition-opacity duration-300`}></div>
                 
-                {/* 年份标签 */}
-                <div className="absolute -top-3 -right-3">
-                  <div className={`bg-gradient-to-r ${award.gradient} text-white px-4 py-2 rounded-xl text-sm font-bold shadow-lg`}>
+                {/* 年份标签 - 移动端调整位置和大小 */}
+                <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3">
+                  <div className={`bg-gradient-to-r ${award.gradient} text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold shadow-lg`}>
                     {award.year}
                   </div>
                 </div>
 
                 {/* 内容区域 */}
                 <div className="relative z-10">
-                  {/* 图标和奖项 */}
-                  <div className="flex items-start space-x-4 mb-6">
-                    <div className={`w-16 h-16 bg-gradient-to-r ${award.gradient} rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                      <span className="text-2xl filter drop-shadow-sm">{award.icon}</span>
+                  {/* 图标和奖项 - 移动端优化布局 */}
+                  <div className="flex items-start space-x-3 sm:space-x-4 mb-4 sm:mb-6">
+                    <div className={`w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-r ${award.gradient} rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 flex-shrink-0`}>
+                      <span className="text-xl sm:text-2xl filter drop-shadow-sm">{award.icon}</span>
                     </div>
-                    <div className="flex-1">
-                      <div className={`inline-block bg-gradient-to-r ${award.gradient} text-white px-4 py-2 rounded-xl text-sm font-bold mb-2 shadow-md`}>
+                    <div className="flex-1 min-w-0">
+                      <div className={`inline-block bg-gradient-to-r ${award.gradient} text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-bold mb-2 shadow-md`}>
                         {award.award}
                       </div>
                     </div>
                   </div>
 
-                  {/* 竞赛标题 */}
-                  <h3 className="text-xl font-bold text-gray-800 mb-4 leading-tight group-hover:text-gray-900 transition-colors duration-300">
+                  {/* 竞赛标题 - 移动端优化字体大小和行距 */}
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4 leading-tight group-hover:text-gray-900 transition-colors duration-300">
                     {award.title}
                   </h3>
 
-                  {/* 标签区域 */}
-                  <div className="flex flex-wrap gap-2">
+                  {/* 标签区域 - 移动端优化间距 */}
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {award.tags.map((tag, tagIndex) => (
                       <motion.span
                         key={tagIndex}
@@ -141,7 +141,7 @@ export const AwardSection: React.FC = () => {
                           delay: 0.2 + tagIndex * 0.1,
                           ease: "easeOut"
                         }}
-                        className="px-3 py-1 bg-white/70 backdrop-blur-sm text-gray-700 text-sm font-medium rounded-lg border border-gray-200 hover:bg-white hover:shadow-md transition-all duration-200"
+                        className="px-2.5 py-1 sm:px-3 sm:py-1 bg-white/70 backdrop-blur-sm text-gray-700 text-xs sm:text-sm font-medium rounded-md sm:rounded-lg border border-gray-200 hover:bg-white hover:shadow-md transition-all duration-200"
                       >
                         {tag}
                       </motion.span>
@@ -158,16 +158,16 @@ export const AwardSection: React.FC = () => {
 
         {/* 底部装饰 */}
         <motion.div 
-          className="text-center mt-16"
+          className="text-center mt-12 sm:mt-14 lg:mt-16"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <div className="inline-flex items-center space-x-2 text-gray-500 text-sm">
-            <div className="w-12 h-px bg-gradient-to-r from-transparent to-gray-300"></div>
-            <span className="font-medium">持续努力，追求卓越</span>
-            <div className="w-12 h-px bg-gradient-to-l from-transparent to-gray-300"></div>
+          <div className="inline-flex items-center space-x-2 text-gray-500 text-xs sm:text-sm">
+            <div className="w-8 sm:w-12 h-px bg-gradient-to-r from-transparent to-gray-300"></div>
+            <span className="font-medium whitespace-nowrap">持续努力，追求卓越</span>
+            <div className="w-8 sm:w-12 h-px bg-gradient-to-l from-transparent to-gray-300"></div>
           </div>
         </motion.div>
       </div>
