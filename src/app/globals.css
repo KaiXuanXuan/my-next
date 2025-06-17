@@ -131,6 +131,10 @@ body {
   background: linear-gradient(135deg, #fefce8, #fef3c7);
 }
 
+.gradient-bg-blue {
+  background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+}
+
 .gradient-bg-gray {
   background: linear-gradient(135deg, #f9fafb, #f3f4f6);
 }

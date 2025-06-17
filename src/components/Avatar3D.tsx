@@ -8,10 +8,10 @@ import * as THREE from 'three';
 // 3D模型组件
 function ModelScene() {
   const modelRef = useRef<THREE.Group>(null);
-  
+
   // 始终调用hooks
   const { scene } = useGLTF('/models/pom-pom__blockbench/scene.gltf');
-  
+
   // 递归设置所有 mesh 的 castShadow
   useEffect(() => {
     if (scene) {
@@ -27,7 +27,7 @@ function ModelScene() {
       }
     }
   }, [scene]);
-  
+
   useFrame(() => {
     if (modelRef.current) {
       // 缓慢自动旋转
@@ -41,10 +41,10 @@ function ModelScene() {
 
   return (
     <group ref={modelRef} castShadow>
-      <primitive 
-        object={scene} 
-        scale={[1.5, 1.5, 1.5]} 
-        position={[0, -2, 0]} 
+      <primitive
+        object={scene}
+        scale={[1.5, 1.5, 1.5]}
+        position={[0, -2, 0]}
         castShadow
       />
     </group>
@@ -93,7 +93,7 @@ export function Avatar3D() {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     // 检测WebGL支持
     const checkWebGL = () => {
       try {
@@ -104,28 +104,20 @@ export function Avatar3D() {
         setHasWebGL(false);
       }
     };
-    
+
     checkMobile();
     checkWebGL();
     window.addEventListener('resize', checkMobile);
-    
+
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // 移动端降级处理
-  if (isMobile) {
+  // 移动端降级处理或WebGL不支持时的降级
+  if (isMobile || hasWebGL === false) {
     return (
-      <div className="w-full h-full bg-gradient-to-br from-orange-400 to-purple-600 rounded-lg flex items-center justify-center text-white text-6xl font-bold shadow-lg">
-        👨‍💻
-      </div>
-    );
-  }
-
-  // WebGL不支持时的降级
-  if (hasWebGL === false) {
-    return (
-      <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-600 rounded-lg flex items-center justify-center text-white text-6xl font-bold shadow-lg">
-        👨‍💻
+      <div className="w-full h-full gradient-bg-blue rounded-lg flex flex-col items-center justify-center shadow-lg">
+        <div className="text-6xl mb-2 mt-5">🙂</div>
+        <div className="text-xs text-gray-50">pc访问获取最佳体验</div>
       </div>
     );
   }
@@ -148,7 +140,7 @@ export function Avatar3D() {
         performance={{ min: 0.5 }}
         shadows
         onError={() => setRenderError(true)}
-        gl={{ 
+        gl={{
           antialias: true,
           alpha: true,
           powerPreference: "default" // 头像使用默认性能模式，避免与项目展示冲突
@@ -164,8 +156,8 @@ export function Avatar3D() {
 
         {/* 光照设置 */}
         <ambientLight intensity={0.4} />
-        <pointLight 
-          position={[1, 3.5, 3]} 
+        <pointLight
+          position={[1, 3.5, 3]}
           intensity={50}
           castShadow
           shadow-mapSize-width={1024}
@@ -174,19 +166,19 @@ export function Avatar3D() {
           shadow-camera-near={0.5}
           shadow-camera-far={20}
         />
-        <directionalLight 
-          position={[0, -1, -5]} 
-          intensity={0.7} 
+        <directionalLight
+          position={[0, -1, -5]}
+          intensity={0.7}
         />
-        
+
         {/* 3D模型 - 用Suspense包装 */}
         <Suspense fallback={null}>
           <ModelScene />
         </Suspense>
-        
+
         {/* 轨道控制器 - 允许用户交互 */}
-        <OrbitControls 
-          enableZoom={false} 
+        <OrbitControls
+          enableZoom={false}
           enablePan={false}
           maxPolarAngle={Math.PI / 2}
           minPolarAngle={Math.PI / 3}
