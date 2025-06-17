@@ -46,10 +46,26 @@ body {
   color: transparent;
 }
 
+/* 技能展示渐变类 */
+.gradient-text-skills {
+  background: linear-gradient(90deg, #1f2937, #1d4ed8, #7c3aed);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.gradient-bg-skills-main {
+  background: linear-gradient(135deg, #dbeafe, #e0f2fe, #f3e8ff);
+}
+
+.gradient-bg-skills-other {
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+}
+
 .gradient-border-blue {
-  background: linear-gradient(45deg, #3b82f6, #ffffff, #06b6d4, #8b5cf6);
-  background-size: 400% 400%;
-  animation: gradient-shift 4s ease-in-out infinite;
+  background: conic-gradient(from 0deg, #3b82f6, #ffffff, #06b6d4, #8b5cf6, #ffffff, #06b6d4, #3b82f6);
+  animation: rotate-border 4s linear infinite;
 }
 
 .gradient-btn-blue {
@@ -84,6 +100,21 @@ body {
   background: linear-gradient(90deg, #06b6d4, #3b82f6);
 }
 
+.gradient-line-skills {
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+}
+
+/* 头像边框真正的旋转动画 */
+@keyframes rotate-border {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 保留原来的呼吸动画作为备用 */
 @keyframes gradient-shift {
   0%, 100% {
     background-position: 0% 50%;

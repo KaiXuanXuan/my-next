@@ -69,10 +69,10 @@ export const SkillsShowcase: React.FC = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-700 to-purple-700 bg-clip-text text-transparent mb-4">
+        <h2 className="text-4xl md:text-5xl font-bold gradient-text-skills mb-4">
           技能展示
         </h2>
-        <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto rounded-full"></div>
+        <div className="w-20 h-1 gradient-line-skills mx-auto rounded-full"></div>
         <p className="text-gray-600 text-lg mt-6 max-w-2xl mx-auto font-light">
           掌握现代前端技术栈，专注于用户体验和性能优化
         </p>
@@ -84,15 +84,15 @@ export const SkillsShowcase: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-gradient-to-br from-blue-50 via-cyan-50 to-purple-50 rounded-2xl p-8 shadow-lg border border-blue-200/60 flex flex-col md:col-span-3 relative overflow-hidden"
+          className="gradient-bg-skills-main rounded-2xl p-8 shadow-lg border border-blue-200/60 flex flex-col md:col-span-3 relative overflow-hidden"
         >
           {/* 装饰性背景元素 */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-200/30 to-purple-200/30 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-cyan-200/30 to-blue-200/30 rounded-full blur-2xl"></div>
+          <div className="absolute top-0 right-0 w-32 h-32 bg-blue-200/30 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-cyan-200/30 rounded-full blur-2xl"></div>
 
           <div className="relative z-10">
             <div className="flex items-center mb-6">
-              <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mr-3 shadow-sm"></div>
+              <div className="w-3 h-3 gradient-line-blue rounded-full mr-3 shadow-sm"></div>
               <Title level={3} className="!mb-0 !text-slate-800 font-bold text-xl">
                 前端开发
               </Title>
@@ -105,7 +105,7 @@ export const SkillsShowcase: React.FC = () => {
                     {sub.skills.map((skill) => (
                       <span
                         key={skill}
-                        className="px-3 py-1.5 bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-700 rounded-lg text-sm font-medium border border-blue-300/50 hover:from-blue-200 hover:to-indigo-200 hover:border-blue-400/60 transition-all duration-200 shadow-sm"
+                        className="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium border border-blue-300/50 hover:bg-blue-200 hover:border-blue-400/60 transition-all duration-200 shadow-sm"
                       >
                         {skill}
                       </span>
@@ -123,14 +123,14 @@ export const SkillsShowcase: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="bg-gradient-to-br from-white to-slate-50 rounded-2xl p-8 shadow-lg border border-slate-200/60 flex flex-col md:col-span-2 relative overflow-hidden"
+          className="gradient-bg-skills-other rounded-2xl p-8 shadow-lg border border-slate-200/60 flex flex-col md:col-span-2 relative overflow-hidden"
         >
           {/* 装饰性背景元素 */}
-          <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-emerald-200/40 to-blue-200/40 rounded-full blur-2xl"></div>
+          <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-200/40 rounded-full blur-2xl"></div>
 
           <div className="relative z-10">
             <div className="flex items-center mb-6">
-              <div className="w-3 h-3 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full mr-3"></div>
+              <div className="w-3 h-3 bg-emerald-400 rounded-full mr-3"></div>
               <Title level={3} className="!mb-0 !text-slate-700 font-bold text-xl">
                 其他技能
               </Title>
