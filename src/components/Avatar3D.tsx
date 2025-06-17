@@ -116,7 +116,7 @@ export function Avatar3D() {
   if (isMobile || hasWebGL === false) {
     return (
       <div className="w-full h-full gradient-bg-blue rounded-lg flex flex-col items-center justify-center shadow-lg">
-        <div className="text-6xl mb-2 mt-5">🙂</div>
+        <div className="text-6xl mb-2 mt-4">🙂</div>
         <div className="text-xs text-gray-50">pc访问获取最佳体验</div>
       </div>
     );
