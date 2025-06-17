@@ -57,50 +57,86 @@ export function ProfileSection() {
     <div className="relative min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       <style dangerouslySetInnerHTML={{
         __html: `
-          @property --rotateDeg {
-            syntax: '<angle>';
-            initial-value: 0deg;
-            inherits: false;
-          }
-
+          /* 兼容性优化：为不支持@property的浏览器提供回退 */
           .animated-border-container {
-            background: conic-gradient(
-              from var(--rotateDeg),
-              #3b82f6,
-              #ffffff,
-              #06b6d4,
-              #8b5cf6,
-              #ffffff,
-              #06b6d4,
-              #3b82f6
-            );
-            animation: rotating 4s linear infinite;
+            background: linear-gradient(45deg, #3b82f6, #ffffff, #06b6d4, #8b5cf6);
+            background-size: 400% 400%;
+            animation: gradient-shift 4s ease-in-out infinite;
           }
 
           .animated-border-glow {
-            background: conic-gradient(
-              from var(--rotateDeg),
-              #3b82f6,
-              #ffffff,
-              #06b6d4,
-              #8b5cf6,
-              #ffffff,
-              #06b6d4,
-              #3b82f6
-            );
-            animation: rotating 4s linear infinite;
+            background: linear-gradient(45deg, #3b82f6, #ffffff, #06b6d4, #8b5cf6);
+            background-size: 400% 400%;
+            animation: gradient-shift 4s ease-in-out infinite;
           }
 
-          @keyframes rotating {
-            0% {
-              --rotateDeg: 0deg;
+          /* 支持@property的现代浏览器 */
+          @supports (background: conic-gradient(from 0deg, red, blue)) {
+            @property --rotateDeg {
+              syntax: '<angle>';
+              initial-value: 0deg;
+              inherits: false;
+            }
+
+            .animated-border-container {
+              background: conic-gradient(
+                from var(--rotateDeg),
+                #3b82f6,
+                #ffffff,
+                #06b6d4,
+                #8b5cf6,
+                #ffffff,
+                #06b6d4,
+                #3b82f6
+              );
+              animation: rotating 4s linear infinite;
+            }
+
+            .animated-border-glow {
+              background: conic-gradient(
+                from var(--rotateDeg),
+                #3b82f6,
+                #ffffff,
+                #06b6d4,
+                #8b5cf6,
+                #ffffff,
+                #06b6d4,
+                #3b82f6
+              );
+              animation: rotating 4s linear infinite;
+            }
+
+            @keyframes rotating {
+              0% {
+                --rotateDeg: 0deg;
+              }
+              50% {
+                --rotateDeg: 180deg;
+              }
+              100% {
+                --rotateDeg: 360deg;
+              }
+            }
+          }
+
+          /* 回退动画 */
+          @keyframes gradient-shift {
+            0%, 100% {
+              background-position: 0% 50%;
             }
             50% {
-              --rotateDeg: 180deg;
+              background-position: 100% 50%;
             }
-            100% {
-              --rotateDeg: 360deg;
-            }
+          }
+
+          /* 添加webkit前缀支持 */
+          .bg-clip-text {
+            -webkit-background-clip: text;
+            background-clip: text;
+          }
+
+          .text-transparent {
+            -webkit-text-fill-color: transparent;
           }
         `
       }} />
@@ -159,7 +195,11 @@ export function ProfileSection() {
                     key={stat.label}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
+                    transition={{ 
+                      duration: 0.6, 
+                      delay: 0.8 + index * 0.15,
+                      ease: "easeOut"
+                    }}
                     className="flex flex-col items-center"
                   >
                     <div className="text-lg sm:text-xl lg:text-2xl mb-1">{stat.icon}</div>
@@ -228,7 +268,11 @@ export function ProfileSection() {
                     className="flex items-center space-x-2 sm:space-x-3 group"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 1 + index * 0.1 }}
+                    transition={{ 
+                      duration: 0.6, 
+                      delay: 1 + index * 0.15,
+                      ease: "easeOut"
+                    }}
                   >
                     <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center text-white shadow-sm group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
                       <span className="text-xs sm:text-sm">

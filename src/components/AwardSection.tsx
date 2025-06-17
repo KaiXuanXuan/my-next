@@ -29,8 +29,9 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.2,
-      delayChildren: 0.1
+      staggerChildren: 0.3,
+      delayChildren: 0.2,
+      ease: "easeOut"
     }
   }
 };
@@ -38,16 +39,16 @@ const containerVariants = {
 const itemVariants = {
   hidden: { 
     opacity: 0, 
-    y: 30,
-    scale: 0.95
+    y: 40,
+    scale: 0.9
   },
   visible: { 
     opacity: 1, 
     y: 0,
     scale: 1,
     transition: {
-      duration: 0.6,
-      ease: [0.22, 1, 0.36, 1]
+      duration: 0.8,
+      ease: "easeOut"
     }
   }
 };
@@ -67,7 +68,7 @@ export const AwardSection: React.FC = () => {
           className="text-center mb-12 sm:mb-14 lg:mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-gray-900 via-yellow-700 to-amber-700 bg-clip-text text-transparent mb-4">
@@ -85,7 +86,7 @@ export const AwardSection: React.FC = () => {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-50px" }}
         >
           {awards.map((award, index) => (
             <motion.div
@@ -93,7 +94,7 @@ export const AwardSection: React.FC = () => {
               variants={itemVariants}
               whileHover={{ 
                 scale: 1.02,
-                transition: { duration: 0.2 } 
+                transition: { duration: 0.2, ease: "easeOut" } 
               }}
               className="group relative"
             >
@@ -135,10 +136,10 @@ export const AwardSection: React.FC = () => {
                         key={tagIndex}
                         initial={{ opacity: 0, scale: 0.8 }}
                         whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, margin: "-20px" }}
                         transition={{ 
-                          duration: 0.4, 
-                          delay: 0.2 + tagIndex * 0.1,
+                          duration: 0.5, 
+                          delay: 0.3 + tagIndex * 0.1,
                           ease: "easeOut"
                         }}
                         className="px-2.5 py-1 sm:px-3 sm:py-1 bg-white/70 backdrop-blur-sm text-gray-700 text-xs sm:text-sm font-medium rounded-md sm:rounded-lg border border-gray-200 hover:bg-white hover:shadow-md transition-all duration-200"
@@ -161,8 +162,8 @@ export const AwardSection: React.FC = () => {
           className="text-center mt-12 sm:mt-14 lg:mt-16"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, delay: 0.6 }}
         >
           <div className="inline-flex items-center space-x-2 text-gray-500 text-xs sm:text-sm">
             <div className="w-8 sm:w-12 h-px bg-gradient-to-r from-transparent to-gray-300"></div>
